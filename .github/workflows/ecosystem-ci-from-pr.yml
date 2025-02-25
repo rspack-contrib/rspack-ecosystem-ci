@@ -36,6 +36,7 @@ on:
           - rslib
           - examples
           - devserver
+          - plugin
       suiteRefType:
         description: "type of suite ref to use"
         required: true
@@ -110,6 +111,8 @@ jobs:
           - suite: devserver
             os: ubuntu-22.04
           - suite: nuxt
+            os: ubuntu-22.04
+          - suite: plugin
             os: ubuntu-22.04
       fail-fast: false
     runs-on: ${{ matrix.os }}
