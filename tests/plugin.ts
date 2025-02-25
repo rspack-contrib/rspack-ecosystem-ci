@@ -4,7 +4,7 @@ import { RunOptions } from '../types'
 export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
-		repo: 'web-infra-dev/rspack-plugin-ci',
+		repo: 'rspack-contrib/rspack-plugin-ci',
 		branch: 'main',
 		test: ['test'],
 	})
