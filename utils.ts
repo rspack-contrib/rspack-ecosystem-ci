@@ -42,11 +42,19 @@ export async function $(literals: TemplateStringsArray, ...values: any[]) {
 		env,
 		stdio: 'pipe',
 		cwd,
+		reject: false,
 	})
 	proc.stdin && process.stdin.pipe(proc.stdin)
 	proc.stdout && proc.stdout.pipe(process.stdout)
 	proc.stderr && proc.stderr.pipe(process.stderr)
 	const result = await proc
+
+	if (result.failed) {
+		// simplify the error output of execa
+		// https://github.com/sindresorhus/execa/blob/main/docs/errors.md
+		// @ts-expect-error
+		throw new Error(result.shortMessage || result.message)
+	}
 
 	if (isGitHubActions) {
 		actionsCore.endGroup()
