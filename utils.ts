@@ -52,7 +52,7 @@ export async function $(literals: TemplateStringsArray, ...values: any[]) {
 	if (result.failed) {
 		// simplify the error output of execa
 		// https://github.com/sindresorhus/execa/blob/main/docs/errors.md
-		// @ts-expect-error
+		// @ts-expect-error execa type error
 		throw new Error(result.shortMessage || result.message)
 	}
 
