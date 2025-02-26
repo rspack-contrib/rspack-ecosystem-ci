@@ -46,6 +46,8 @@ jobs:
             os: ubuntu-22.04
           - suite: nuxt
             os: ubuntu-22.04
+          - suite: plugin
+            os: ubuntu-22.04
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.suite }}
