@@ -496,9 +496,9 @@ async function applyPackageOverrides(
 		}
 
 		if (pkg.packageManager?.includes('pnpm@10')) {
-			pkg.packageManager = 'pnpm@10.1.0'
+			pkg.packageManager = 'pnpm@9.15.9'
 			if (pkg.engines?.pnpm) {
-				pkg.engines.pnpm = '>=10.1.0'
+				pkg.engines.pnpm = '>=9.15.9'
 			}
 		}
 	} else if (pm === 'yarn') {
