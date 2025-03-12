@@ -494,6 +494,13 @@ async function applyPackageOverrides(
 			...pkg.pnpm.overrides,
 			...overrides,
 		}
+
+		if (pkg.packageManager?.includes('pnpm@10')) {
+			pkg.packageManager = 'pnpm@10.1.0'
+			if (pkg.engines?.pnpm) {
+				pkg.engines.pnpm = '>=10.1.0'
+			}
+		}
 	} else if (pm === 'yarn') {
 		if (!pkg.devDependencies) {
 			pkg.devDependencies = {}
