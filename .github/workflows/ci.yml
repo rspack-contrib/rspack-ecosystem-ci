@@ -64,6 +64,11 @@ jobs:
       - name: Lint
         if: matrix.suite == '_selftest'
         run: pnpm lint
+      - name: Setup Node.js
+        if: matrix.suite == 'lynx-stack'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - name: Setup Rust
         if: matrix.suite == 'lynx-stack'
         uses: actions-rust-lang/setup-rust-toolchain@v1
