@@ -460,7 +460,7 @@ async function applyPackageOverrides(
 	beforeInstallCommand: ((scripts: any) => Promise<any>) | void,
 ) {
 	const useFileProtocol = (v: string) =>
-		isLocalOverride(v) ? path.resolve(v) : v
+		isLocalOverride(v) ? `file:${path.resolve(v)}` : v
 	// remove boolean flags
 	overrides = Object.fromEntries(
 		Object.entries(overrides)
@@ -493,6 +493,13 @@ async function applyPackageOverrides(
 		pkg.pnpm.overrides = {
 			...pkg.pnpm.overrides,
 			...overrides,
+		}
+
+		if (pkg.packageManager?.includes('pnpm@10')) {
+			pkg.packageManager = 'pnpm@9.15.9'
+			if (pkg.engines?.pnpm) {
+				pkg.engines.pnpm = '>=9.15.9'
+			}
 		}
 	} else if (pm === 'yarn') {
 		if (!pkg.devDependencies) {
