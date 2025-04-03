@@ -11,7 +11,10 @@ export async function test(options: RunOptions) {
 		repo: 'colinaaa/lynx-stack',
 		branch: process.env.LYNX_STACK_REF ?? 'colin/0404/uqr',
 		async beforeInstall() {
-			const lynxStackDir = path.resolve(process.cwd(), 'workspace/lynx-stack')
+			const lynxStackDir = path.resolve(
+				process.cwd(),
+				'workspace/lynx-stack/lynx-stack',
+			)
 			const packageJsonPath = path.join(lynxStackDir, 'package.json')
 			const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
 
