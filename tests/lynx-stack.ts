@@ -1,4 +1,4 @@
-import { runInRepo, $ } from '../utils'
+import { runInRepo } from '../utils'
 import { RunOptions } from '../types'
 
 export async function test(options: RunOptions) {
@@ -9,6 +9,6 @@ export async function test(options: RunOptions) {
 		beforeBuild: `rustup target add wasm32-unknown-unknown`,
 		// TODO(colinaaa): enable Lynx for Web tests
 		build: 'pnpm turbo build',
-		test: 'test',
+		test: 'pnpm run test --silent',
 	})
 }
