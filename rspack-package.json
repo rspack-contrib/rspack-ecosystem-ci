@@ -20,7 +20,7 @@
 		},
 		{
 			"name": "@rspack/test-tools",
-			"directory": "packages/rsapck-test-tools"
+			"directory": "packages/rspack-test-tools"
 		}
 	],
 	"npm": {
