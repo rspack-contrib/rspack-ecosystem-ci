@@ -17,6 +17,10 @@
 		{
 			"name": "@rspack/tracing",
 			"directory": "packages/rspack-tracing"
+		},
+		{
+			"name": "@rspack/test-tools",
+			"directory": "packages/rsapck-test-tools"
 		}
 	],
 	"npm": {
