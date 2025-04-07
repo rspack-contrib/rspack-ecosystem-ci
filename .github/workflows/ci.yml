@@ -48,6 +48,8 @@ jobs:
             os: ubuntu-22.04
           - suite: plugin
             os: ubuntu-22.04
+          - suite: lynx-stack
+            os: ubuntu-22.04
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.suite }}
@@ -62,6 +64,14 @@ jobs:
       - name: Lint
         if: matrix.suite == '_selftest'
         run: pnpm lint
+      - name: Setup Node.js
+        if: matrix.suite == 'lynx-stack' || matrix.suite == '_selftest'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Setup Rust
+        if: matrix.suite == 'lynx-stack'
+        uses: actions-rust-lang/setup-rust-toolchain@v1
       - name: Expose GitHub Runtime
         uses: crazy-max/ghaction-github-runtime@v3
       - run: >-
