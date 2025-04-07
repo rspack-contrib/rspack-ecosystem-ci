@@ -65,7 +65,7 @@ jobs:
         if: matrix.suite == '_selftest'
         run: pnpm lint
       - name: Setup Node.js
-        if: matrix.suite == 'lynx-stack'
+        if: matrix.suite == 'lynx-stack' || matrix.suite == '_selftest'
         uses: actions/setup-node@v4
         with:
           node-version: 22
