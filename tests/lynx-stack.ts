@@ -1,11 +1,12 @@
 import { mkdtemp } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 
 import { runInRepo } from '../utils'
 import { RunOptions } from '../types'
 
 export async function test(options: RunOptions) {
-	const tmp = await mkdtemp(tmpdir())
+	const tmp = await mkdtemp(join(tmpdir(), 'lynx-stack-'))
 
 	await runInRepo({
 		...options,
