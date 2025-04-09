@@ -11,6 +11,6 @@ export async function test(options: RunOptions) {
 			await $`pnpm playwright install --with-deps`
 			cd('..')
 		},
-		test: ['test'],
+		test: ['test:ecosystem-ci'],
 	})
 }
