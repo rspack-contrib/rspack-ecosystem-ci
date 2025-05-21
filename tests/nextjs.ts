@@ -6,7 +6,7 @@ export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
 		repo: 'vercel/next.js',
-		branch: 'main',
+		branch: 'canary',
 		build: ['build'],
 		test: async () => {
 			const env = {
