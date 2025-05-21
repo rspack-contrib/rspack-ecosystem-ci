@@ -48,6 +48,8 @@ jobs:
             os: ubuntu-22.04
           - suite: plugin
             os: ubuntu-22.04
+          - suite: nextjs
+            os: ubuntu-22.04
           - suite: lynx-stack
             os: ubuntu-22.04
       fail-fast: false
