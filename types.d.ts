@@ -8,6 +8,11 @@ export interface EnvironmentData {
 	env: NodeJS.ProcessEnv
 }
 
+interface ShardPair {
+	shardCount: number;
+	shardIndex: number;
+}
+
 export interface RunOptions {
 	workspace: string
 	root: string
@@ -26,6 +31,7 @@ export interface RunOptions {
 	suiteBranch?: string
 	suiteTag?: string
 	suiteCommit?: string
+	shardPair?: ShardPair
 }
 
 type Task = string | (() => Promise<any>)
@@ -41,6 +47,7 @@ export interface CommandOptions {
 	suiteBranch?: string
 	suiteTag?: string
 	suiteCommit?: string
+	shard?: string,
 }
 
 export interface RepoOptions {

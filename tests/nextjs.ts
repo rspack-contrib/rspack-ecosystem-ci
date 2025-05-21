@@ -2,7 +2,8 @@ import { runInRepo, execa } from '../utils'
 import { RunOptions } from '../types'
 
 export async function test(options: RunOptions) {
-	const pwd = options.workspace;
+	const { workspace, shardPair } = options;
+
 	await runInRepo({
 		...options,
 		repo: 'vercel/next.js',
@@ -11,18 +12,21 @@ export async function test(options: RunOptions) {
 		test: async () => {
 			const env = {
 				...process.env,
-				NEXT_EXTERNAL_TESTS_FILTERS: `${pwd}/next.js/test/rspack-build-tests-manifest.json`,
+				NEXT_EXTERNAL_TESTS_FILTERS: `${workspace}/next.js/test/rspack-build-tests-manifest.json`,
 				NEXT_RSPACK: '1',
 				NEXT_TEST_USE_RSPACK: '1',
 			};
-			await execa('node run-tests.js --timings --type production', {
-				env,
-				shell: true,
-			})
-			await execa('node run-tests.js --timings --type development', {
-				env,
-				shell: true,
-			})
+			if (shardPair) {
+				await execa(`node run-tests.js --timings -g ${ shardPair } --type production`, {
+					env,
+					shell: true,
+				})
+			} else {
+				await execa('node run-tests.js --timings --type production', {
+					env,
+					shell: true,
+				})
+			}
 		},
 	})
 }
