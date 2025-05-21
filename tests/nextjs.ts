@@ -11,11 +11,15 @@ export async function test(options: RunOptions) {
 		test: async () => {
 			const env = {
 				...process.env,
-				NEXT_EXTERNAL_TESTS_FILTERS: `${pwd}/test/rspack-build-tests-manifest.json`,
+				NEXT_EXTERNAL_TESTS_FILTERS: `${pwd}/next.js/test/rspack-build-tests-manifest.json`,
 				NEXT_RSPACK: '1',
 				NEXT_TEST_USE_RSPACK: '1',
 			};
 			await execa('node run-tests.js --timings --type production', {
+				env,
+				shell: true,
+			})
+			await execa('node run-tests.js --timings --type development', {
 				env,
 				shell: true,
 			})
