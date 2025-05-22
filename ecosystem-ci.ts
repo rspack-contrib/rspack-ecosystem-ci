@@ -90,7 +90,7 @@ cli
 	.option('--suite-tag <tag>', 'suite tag to use')
 	.option('--suite-commit <commit>', 'suite commit sha to use')
 	.option(
-		'--shard',
+		'--shard <shard>',
 		'Shard tests and execute only the selected shard, specify in the form "current/all". 1-based, for example "3/5"',
 	)
 	.action(async (suites, options: CommandOptions) => {

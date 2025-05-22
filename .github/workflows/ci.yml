@@ -98,5 +98,5 @@ jobs:
       - run: >-
           pnpm tsx ecosystem-ci.ts
           run-suites
-          ${{ matrix.shard && '--shard ' + matrix.shard || '' }}
+          ${{ matrix.shard && '--shard ' || '' }}${{ matrix.shard || '' }}
           ${{ matrix.suite }}

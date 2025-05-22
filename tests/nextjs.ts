@@ -17,7 +17,7 @@ export async function test(options: RunOptions) {
 				NEXT_TEST_USE_RSPACK: '1',
 			};
 			if (shardPair) {
-				await execa(`node run-tests.js --timings -g ${ shardPair } --type production`, {
+				await execa(`node run-tests.js --timings -g ${ shardPair.shardIndex }/${ shardPair.shardCount } --type production`, {
 					env,
 					shell: true,
 				})
