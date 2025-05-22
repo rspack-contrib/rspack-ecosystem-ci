@@ -73,7 +73,7 @@ jobs:
             os: ubuntu-22.04
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.suite }}
+    name: ${{ matrix.suite }} ${{ matrix.shard || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/build-rspack
