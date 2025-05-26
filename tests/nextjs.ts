@@ -1,14 +1,24 @@
+import path from 'path'
+import fs from 'fs';
 import { runInRepo, execa } from '../utils'
 import { RunOptions } from '../types'
 
 export async function test(options: RunOptions) {
-	const { workspace, shardPair } = options;
+	const { workspace, shardPair, rspackPath } = options;
+	const rspackCorePath = path.join(rspackPath, 'packages/rspack');
 
 	await runInRepo({
 		...options,
 		repo: 'vercel/next.js',
 		branch: 'canary',
 		build: ['build'],
+		beforeTest: async () => {
+			const nextRspackPath = path.join(workspace, 'next.js/packages/next-rspack');
+			const nextRspackPkgPath = path.join(nextRspackPath, 'package.json');
+			const pkg = JSON.parse(fs.readFileSync(nextRspackPkgPath, 'utf-8'));
+			pkg.dependencies['@rspack/core'] = `${rspackCorePath}`;
+			fs.writeFileSync(nextRspackPkgPath, JSON.stringify(pkg, null, 2));
+		},
 		test: async () => {
 			const env = {
 				...process.env,
@@ -17,12 +27,12 @@ export async function test(options: RunOptions) {
 				NEXT_TEST_USE_RSPACK: '1',
 			};
 			if (shardPair) {
-				await execa(`node run-tests.js --timings -g ${ shardPair.shardIndex }/${ shardPair.shardCount } --type production`, {
+				await execa(`node run-tests.js -g ${ shardPair.shardIndex }/${ shardPair.shardCount } --type production`, {
 					env,
 					shell: true,
 				})
 			} else {
-				await execa('node run-tests.js --timings --type production', {
+				await execa('node run-tests.js --type production', {
 					env,
 					shell: true,
 				})
