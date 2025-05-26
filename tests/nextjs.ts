@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs';
-import { runInRepo, execa } from '../utils'
+import { runInRepo, execa, $, cd } from '../utils'
 import { RunOptions } from '../types'
 
 export async function test(options: RunOptions) {
@@ -10,17 +10,9 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'vercel/next.js',
 		branch: 'canary',
-		build: ['build'],
-		beforeTest: async () => {
+		build: async () => {
 			const rspackCorePath = path.join(rspackPath, 'packages/rspack');
-
 			const nextWorkspaceDir = path.join(workspace, 'next.js');
-
-			const nextRspackDir = path.join(nextWorkspaceDir, 'next.js/packages/next-rspack');
-			const nextRspackPkgPath = path.join(nextRspackDir, 'package.json');
-			const nextRspackPkg = JSON.parse(fs.readFileSync(nextRspackPkgPath, 'utf-8'));
-			nextRspackPkg.dependencies['@rspack/core'] = `${rspackCorePath}`;
-			fs.writeFileSync(nextRspackPkgPath, JSON.stringify(nextRspackPkg, null, 2));
 
 			const getRspackPath = path.join(nextWorkspaceDir, 'packages/next/src/shared/lib/get-rspack.ts');
 			const getRspackContent = fs.readFileSync(getRspackPath, 'utf-8');
@@ -31,6 +23,13 @@ export async function test(options: RunOptions) {
 			const compiledWebpackContent = fs.readFileSync(compiledWebpackPath, 'utf-8');
 			const replacedCompiledWebpackContent = compiledWebpackContent.replace("require('@rspack/core')", `require('${rspackCorePath}')`);
 			fs.writeFileSync(compiledWebpackPath, replacedCompiledWebpackContent);
+
+			const nodeBindingPath = path.join(rspackPath, 'crates/node_binding');
+			cd(nodeBindingPath);
+			await $`pnpm run move-binding`;
+
+			cd(nextWorkspaceDir);
+			await $`pnpm run build`
 		},
 		test: async () => {
 			const env = {
