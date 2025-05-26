@@ -30,6 +30,7 @@ export async function test(options: RunOptions) {
 
 			cd(nextWorkspaceDir);
 			await $`pnpm run build`
+			await $`pnpm install`
 		},
 		test: async () => {
 			const env = {
