@@ -12,7 +12,7 @@ import {
 	parseMajorVersion,
 	ignorePrecoded,
 } from './utils'
-import { CommandOptions, RunOptions } from './types'
+import { CommandOptions, RunOptions, ShardPair } from './types'
 
 const cli = cac()
 cli
@@ -89,9 +89,14 @@ cli
 	.option('--suite-branch <branch>', 'suite branch to use')
 	.option('--suite-tag <tag>', 'suite tag to use')
 	.option('--suite-commit <commit>', 'suite commit sha to use')
+	.option(
+		'--shard <shard>',
+		'Shard tests and execute only the selected shard, specify in the form "current/all". 1-based, for example "3/5"',
+	)
 	.action(async (suites, options: CommandOptions) => {
 		const { root, rspackPath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
+		const shardPair = options.shard ? parseShardPair(options.shard) : undefined
 		const runOptions: RunOptions = {
 			...options,
 			root,
@@ -101,6 +106,7 @@ cli
 			suiteBranch: ignorePrecoded(options.suiteBranch),
 			suiteTag: ignorePrecoded(options.suiteTag),
 			suiteCommit: ignorePrecoded(options.suiteCommit),
+			shardPair,
 		}
 		for (const suite of suitesToRun) {
 			await run(suite, runOptions)
@@ -196,4 +202,37 @@ function getSuitesToRun(suites: string[], root: string) {
 		}
 	}
 	return suitesToRun
+}
+
+const parseShardPair = (pair: string): ShardPair => {
+	const shardPair = pair
+		.split('/')
+		.filter((d) => /^\d+$/.test(d))
+		.map((d) => Number.parseInt(d, 10))
+		.filter((shard) => !Number.isNaN(shard))
+
+	const [shardIndex, shardCount] = shardPair
+
+	if (shardPair.length !== 2) {
+		throw new Error(
+			'The shard option requires a string in the format of <n>/<m>.',
+		)
+	}
+
+	if (shardIndex === 0 || shardCount === 0) {
+		throw new Error(
+			'The shard option requires 1-based values, received 0 or lower in the pair.',
+		)
+	}
+
+	if (shardIndex > shardCount) {
+		throw new Error(
+			'The shard option <n>/<m> requires <n> to be lower or equal than <m>.',
+		)
+	}
+
+	return {
+		shardCount,
+		shardIndex,
+	}
 }
