@@ -96,7 +96,7 @@ cli
 	.action(async (suites, options: CommandOptions) => {
 		const { root, rspackPath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
-		const shardPair = options.shard ? parseShardPair(options.shard) : undefined;
+		const shardPair = options.shard ? parseShardPair(options.shard) : undefined
 		const runOptions: RunOptions = {
 			...options,
 			root,
@@ -106,7 +106,7 @@ cli
 			suiteBranch: ignorePrecoded(options.suiteBranch),
 			suiteTag: ignorePrecoded(options.suiteTag),
 			suiteCommit: ignorePrecoded(options.suiteCommit),
-			shardPair
+			shardPair,
 		}
 		for (const suite of suitesToRun) {
 			await run(suite, runOptions)

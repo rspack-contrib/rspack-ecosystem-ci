@@ -9,8 +9,8 @@ export interface EnvironmentData {
 }
 
 interface ShardPair {
-	shardCount: number;
-	shardIndex: number;
+	shardCount: number
+	shardIndex: number
 }
 
 export interface RunOptions {
@@ -47,7 +47,7 @@ export interface CommandOptions {
 	suiteBranch?: string
 	suiteTag?: string
 	suiteCommit?: string
-	shard?: string,
+	shard?: string
 }
 
 export interface RepoOptions {
