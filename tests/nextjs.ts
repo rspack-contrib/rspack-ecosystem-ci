@@ -47,12 +47,17 @@ export async function test(options: RunOptions) {
 			await $`pnpm run build`
 			await $`pnpm install`
 		},
+		beforeTest: async () => {
+			await $`pnpm playwright install --with-deps`
+		},
 		test: async () => {
 			const env = {
 				...process.env,
 				NEXT_EXTERNAL_TESTS_FILTERS: `${workspace}/next.js/test/rspack-build-tests-manifest.json`,
 				NEXT_RSPACK: '1',
 				NEXT_TEST_USE_RSPACK: '1',
+				TEST_CONCURRENCY: '8',
+				NEXT_TEST_MODE: 'start',
 			}
 			if (shardPair) {
 				await execa(
