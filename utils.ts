@@ -380,6 +380,7 @@ export async function buildRspack({ verify = false }) {
 	])
 	const runBuildJs = getCommand('pnpm', 'run', ['build:js'])
 	await $`${frozenInstall}`
+	await $`cargo codegen`
 	await $`${runBuildBinding}`
 	await $`${runMoveBinding}`
 	await $`${runBuildJs}`
