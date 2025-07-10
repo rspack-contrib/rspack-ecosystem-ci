@@ -13,4 +13,4 @@ packages:
 
 max_body_size: 200mb
 
-log: { type: stdout, format: pretty, level: http }
+log: { type: file, path: workspace/verdaccio.log, level: info }
