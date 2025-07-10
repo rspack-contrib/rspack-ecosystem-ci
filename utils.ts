@@ -531,9 +531,7 @@ async function applyPackageOverrides(
 
 	// use of `ni` command here could cause lockfile violation errors so fall back to native commands that avoid these
 	if (pm === 'pnpm') {
-		await $`cat package.json`
 		await $`pnpm install --prefer-frozen-lockfile --prefer-offline --no-strict-peer-dependencies`
-		await $`ls -il node_modules/@rspack/core/package.json ../../rspack/packages/rspack/package.json`
 	} else if (pm === 'yarn') {
 		await $`yarn install`
 	} else if (pm === 'npm') {
