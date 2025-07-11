@@ -1,0 +1,16 @@
+storage: ./workspace/temp
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+packages:
+  '@*/*':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '**':
+    access: $all
+    proxy: npmjs
+
+max_body_size: 200mb
+
+log: { type: file, path: workspace/verdaccio.log, level: info }

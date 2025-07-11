@@ -52,6 +52,7 @@ runs:
       run: |
         cd ${{ inputs.path }}
         pnpm i --frozen-lockfile
+        cargo codegen
         pnpm run build:binding:release
     - uses: actions/upload-artifact@v4
       with:
