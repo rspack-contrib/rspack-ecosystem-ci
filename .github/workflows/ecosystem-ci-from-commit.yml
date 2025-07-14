@@ -32,6 +32,7 @@ on:
           - examples
           - devserver
           - plugin
+          - nextjs
       suiteRefType:
         description: "type of suite ref to use"
         required: true
