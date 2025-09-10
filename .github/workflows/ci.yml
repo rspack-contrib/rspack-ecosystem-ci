@@ -40,6 +40,8 @@ jobs:
             os: ubuntu-22.04
           - suite: rslib
             os: ubuntu-22.04
+          - suite: rstest
+            os: ubuntu-22.04
           - suite: rsdoctor
             os: ubuntu-22.04
           - suite: devserver

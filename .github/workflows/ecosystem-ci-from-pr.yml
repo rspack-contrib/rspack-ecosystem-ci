@@ -34,6 +34,7 @@ on:
           - rspress
           - rsbuild
           - rslib
+          - rstest
           - examples
           - devserver
           - plugin
@@ -101,6 +102,8 @@ jobs:
           - suite: rspress
             os: ubuntu-22.04
           - suite: rslib
+            os: ubuntu-22.04
+          - suite: rstest
             os: ubuntu-22.04
           - suite: rsbuild
             os: ubuntu-22.04
